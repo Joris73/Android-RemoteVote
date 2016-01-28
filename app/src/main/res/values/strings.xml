@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Android-RemoteVote</string>
+    <string name="pref_user_profile">PROFIL UTILISATEUR</string>
+    <string name="pref_user_name">Modifier nom</string>
+    <string name="pref_user_name_summary">Modifier votre nom et prénom</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="hint_idsurvey">ID du sondage</string>
 </resources>
