@@ -8,4 +8,8 @@
     <string name="hint_idsurvey">ID du sondage</string>
     <string name="or">OU</string>
     <string name="btn_search">Rechercher</string>
+    <string name="error_title_connexion">PROBLEME CONNEXION INTERNET</string>
+    <string name="error_message_connexion">Veuillez vérifier votre configuration internet s\'il vous plaît</string>
+    <string name="tryagain">Recharger</string>
+    <string name="btn_start">Commencer</string>
 </resources>

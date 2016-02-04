@@ -1,10 +1,12 @@
-package com.joris.android_remotevote;
+package com.joris.android_remotevote.Activity;
 
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
+
+import com.joris.android_remotevote.R;
 
 import java.util.ArrayList;
 

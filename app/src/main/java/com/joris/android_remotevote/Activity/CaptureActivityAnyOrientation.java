@@ -1,4 +1,4 @@
-package com.joris.android_remotevote;
+package com.joris.android_remotevote.Activity;
 
 import com.journeyapps.barcodescanner.CaptureActivity;
 

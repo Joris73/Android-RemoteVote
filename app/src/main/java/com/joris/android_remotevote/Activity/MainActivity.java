@@ -1,7 +1,8 @@
-package com.joris.android_remotevote;
+package com.joris.android_remotevote.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -16,10 +17,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.kevinsawicki.http.HttpRequest;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.joris.android_remotevote.R;
+import com.malinskiy.materialicons.IconDrawable;
+import com.vlonjatg.progressactivity.ProgressActivity;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
     private static final int RESULT_SETTINGS = 42;
     private String username;
     private TextView tvWelcome;
@@ -48,9 +56,16 @@ public class MainActivity extends AppCompatActivity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String idString = inputIdSurvey.getText().toString();
+                String idSondage = inputIdSurvey.getText().toString();
+                launchSondage(idSondage);
             }
         });
+    }
+
+    private void launchSondage(String idSondage) {
+        Intent sondageIntent = new Intent(getBaseContext(), SondageActivity.class);
+        sondageIntent.putExtra("idSondage", idSondage);
+        startActivity(sondageIntent);
     }
 
     @Override
@@ -109,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Log.d("MainActivity", "Scanned");
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                launchSondage(result.getContents());
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
