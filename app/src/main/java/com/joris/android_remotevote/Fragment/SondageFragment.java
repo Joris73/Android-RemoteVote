@@ -1,22 +1,22 @@
-package com.joris.android_remotevote.Activity;
+package com.joris.android_remotevote.Fragment;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.joris.android_remotevote.Activity.SondageActivity;
 import com.joris.android_remotevote.Models.Sondage;
 import com.joris.android_remotevote.R;
 
 public class SondageFragment extends Fragment {
 
     private Sondage sondage;
-    private Context context;
+    private SondageActivity context;
 
     public SondageFragment() {
 
@@ -32,14 +32,14 @@ public class SondageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sondage, container, false);
-        context = view.getContext();
+        context = (SondageActivity) view.getContext();
         TextView title = (TextView) view.findViewById(R.id.tv_sondage_title);
         title.setText(sondage.getTitle());
         Button startButton = (Button) view.findViewById(R.id.btn_start_sondage);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                context.nextQuestion();
             }
         });
         return view;

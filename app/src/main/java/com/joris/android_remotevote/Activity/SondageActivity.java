@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,9 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.joris.android_remotevote.Fragment.FinishFragment;
+import com.joris.android_remotevote.Fragment.QuestionFragment;
+import com.joris.android_remotevote.Fragment.SondageFragment;
 import com.joris.android_remotevote.Models.Sondage;
 import com.joris.android_remotevote.R;
 import com.malinskiy.materialicons.IconDrawable;
@@ -27,6 +31,8 @@ public class SondageActivity extends AppCompatActivity {
     private String idSondage;
     private static Sondage sondage;
 
+    private static int actualQuestion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +41,8 @@ public class SondageActivity extends AppCompatActivity {
         setProgressActivity();
 
         getIdSondage();
+
+        actualQuestion = 0;
 
         new DownloadSondage().execute(API_GET_SONDAGE + idSondage);
     }
@@ -67,6 +75,25 @@ public class SondageActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.frame_sondage, sondageFragmentment).commit();
+    }
+
+    public void nextQuestion() {
+        Fragment fragment;
+        if (actualQuestion < sondage.getQuestions().size()) {
+            fragment = new QuestionFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("question", sondage.getQuestions().get(actualQuestion++));
+            fragment.setArguments(bundle);
+        } else {
+            fragment = new FinishFragment();
+        }
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_sondage, fragment)
+                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 
     private class DownloadSondage extends AsyncTask<String, Void, String> {
