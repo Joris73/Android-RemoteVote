@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class Question implements Parcelable {
     String content;
     int timeToAnswer;
+    String questionType;
+    String _id;
     ArrayList<Answers> answers;
 
     public Question(String content, int timeToAnswer, ArrayList<Answers> answers) {
@@ -20,7 +22,13 @@ public class Question implements Parcelable {
     }
 
     public String getContent() {
+        if (content == null)
+            return "";
         return content;
+    }
+
+    public String get_id() {
+        return _id;
     }
 
     public int getTimeToAnswer() {
@@ -42,6 +50,8 @@ public class Question implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(content);
         dest.writeInt(timeToAnswer);
+        dest.writeString(questionType);
+        dest.writeString(_id);
         dest.writeTypedList(answers);
     }
 
@@ -60,6 +70,8 @@ public class Question implements Parcelable {
     public Question(Parcel in) {
         content = in.readString();
         timeToAnswer = in.readInt();
+        questionType = in.readString();
+        _id = in.readString();
         answers = in.createTypedArrayList(Answers.CREATOR);
     }
 }

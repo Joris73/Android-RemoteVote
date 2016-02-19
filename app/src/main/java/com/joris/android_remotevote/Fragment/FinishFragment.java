@@ -5,9 +5,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.joris.android_remotevote.Activity.SondageActivity;
+import com.joris.android_remotevote.Models.Answers;
 import com.joris.android_remotevote.Models.Question;
 import com.joris.android_remotevote.R;
 

@@ -25,7 +25,7 @@ import com.vlonjatg.progressactivity.ProgressActivity;
 
 public class SondageActivity extends AppCompatActivity {
 
-    public final static String API_GET_SONDAGE = "http://10.7.244.111:3000/api/sondages/";
+    public final static String API_GET_SONDAGE = "http://10.7.244.107:3000/api/sondages/";
     private ProgressActivity progressActivity;
     private IconDrawable errorDrawable;
     private String idSondage;
@@ -114,25 +114,32 @@ public class SondageActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            Log.wtf("timmmmm", "dfgdgd " + result);
             if (result != null) {
                 JsonElement jsonResult = new JsonParser().parse(result);
                 Gson gson = new Gson();
                 sondage = gson.fromJson(jsonResult, Sondage.class);
-                progressActivity.showContent();
+                if (sondage == null) {
+                    error();
+                } else {
+                    progressActivity.showContent();
 
-                setFragmentSondage();
+                    setFragmentSondage();
+                }
             } else {
-                progressActivity.showError(errorDrawable,
-                        getString(R.string.error_title_connexion),
-                        getString(R.string.error_message_connexion),
-                        getString(R.string.tryagain), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                new DownloadSondage().execute(API_GET_SONDAGE);
-                            }
-                        });
+                error();
             }
+        }
+
+        private void error() {
+            progressActivity.showError(errorDrawable,
+                    getString(R.string.error_title_connexion),
+                    getString(R.string.error_message_connexion),
+                    getString(R.string.tryagain), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            new DownloadSondage().execute(API_GET_SONDAGE);
+                        }
+                    });
         }
 
         @Override

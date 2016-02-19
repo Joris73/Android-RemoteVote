@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * Created by jobos on 04/02/2016.
  */
 public class Sondage implements Parcelable {
+    String _id;
     String title;
     String idSimple;
     ArrayList<Question> questions;
@@ -19,7 +20,13 @@ public class Sondage implements Parcelable {
         this.questions = questions;
     }
 
+    public String get_id() {
+        return _id;
+    }
+
     public String getTitle() {
+        if (title == null)
+            return "";
         return title;
     }
 
@@ -40,6 +47,7 @@ public class Sondage implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(_id);
         dest.writeString(idSimple);
         dest.writeString(title);
     }
@@ -57,6 +65,7 @@ public class Sondage implements Parcelable {
     };
 
     public Sondage(Parcel in) {
+        _id = in.readString();
         idSimple = in.readString();
         title = in.readString();
     }
