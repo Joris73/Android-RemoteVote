@@ -41,6 +41,10 @@ public class Question implements Parcelable {
         return answers;
     }
 
+    public void setAnswers(ArrayList<Answers> answers) {
+        this.answers = answers;
+    }
+
     @Override
     public int describeContents() {
         return 0;

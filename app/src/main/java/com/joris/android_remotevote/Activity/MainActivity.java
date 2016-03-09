@@ -2,11 +2,10 @@ package com.joris.android_remotevote.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,14 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.kevinsawicki.http.HttpRequest;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.joris.android_remotevote.R;
-import com.malinskiy.materialicons.IconDrawable;
-import com.vlonjatg.progressactivity.ProgressActivity;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 

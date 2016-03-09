@@ -4,8 +4,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,14 +76,15 @@ public class QuestionFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        new CountDownTimer(30000, 1000) {
+        new CountDownTimer(question.getTimeToAnswer(), 1000) {
 
             public void onTick(long millisUntilFinished) {
-                timer.setText("seconds remaining: " + millisUntilFinished / 1000);
+                timer.setText(context.getString(R.string.secondes, millisUntilFinished / 1000));
             }
 
             public void onFinish() {
-                timer.setText("done!");
+                timer.setText(R.string.finish);
+                context.nextQuestion(question);
             }
         }.start();
     }

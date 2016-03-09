@@ -2,12 +2,11 @@ package com.joris.android_remotevote.Activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.github.kevinsawicki.http.HttpRequest;
@@ -17,6 +16,7 @@ import com.google.gson.JsonParser;
 import com.joris.android_remotevote.Fragment.FinishFragment;
 import com.joris.android_remotevote.Fragment.QuestionFragment;
 import com.joris.android_remotevote.Fragment.SondageFragment;
+import com.joris.android_remotevote.Models.Question;
 import com.joris.android_remotevote.Models.Sondage;
 import com.joris.android_remotevote.R;
 import com.malinskiy.materialicons.IconDrawable;
@@ -25,7 +25,7 @@ import com.vlonjatg.progressactivity.ProgressActivity;
 
 public class SondageActivity extends AppCompatActivity {
 
-    public final static String API_GET_SONDAGE = "http://10.7.244.107:3000/api/sondages/";
+    public final static String API_GET_SONDAGE = "http://10.7.244.169:3000/api/sondages/";
     private ProgressActivity progressActivity;
     private IconDrawable errorDrawable;
     private String idSondage;
@@ -77,7 +77,11 @@ public class SondageActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.frame_sondage, sondageFragmentment).commit();
     }
 
-    public void nextQuestion() {
+    public void nextQuestion(Question previousQuestion) {
+        if (previousQuestion != null) {
+            sondage.getQuestions().get(actualQuestion - 1).setAnswers(previousQuestion.getAnswers());
+        }
+
         Fragment fragment;
         if (actualQuestion < sondage.getQuestions().size()) {
             fragment = new QuestionFragment();
@@ -87,6 +91,9 @@ public class SondageActivity extends AppCompatActivity {
             fragment.setArguments(bundle);
         } else {
             fragment = new FinishFragment();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("sondage", sondage);
+            fragment.setArguments(bundle);
         }
 
         getSupportFragmentManager()
