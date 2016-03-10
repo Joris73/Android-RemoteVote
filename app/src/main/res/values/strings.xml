@@ -16,4 +16,6 @@
     <string name="finish">Fini !</string>
     <string name="reponses">Vos réponses:</string>
     <string name="home">Retour à l\'accueil</string>
+    <string name="info">Informations</string>
+    <string name="credit">Université de Savoie\nJoris BODIN Appli Android\nArnaud Saint-Marcel Appli WEB\nTim De Winter BDD et API</string>
 </resources>
