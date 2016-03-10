@@ -14,6 +14,6 @@
     <string name="btn_start">Commencer</string>
     <string name="secondes">"Il reste %1$d secondes"</string>
     <string name="finish">Fini !</string>
-    <string name="reponses">Vos reponse(s):</string>
-    <string name="home">Retour à l\'acceuil</string>
+    <string name="reponses">Vos réponses:</string>
+    <string name="home">Retour à l\'accueil</string>
 </resources>

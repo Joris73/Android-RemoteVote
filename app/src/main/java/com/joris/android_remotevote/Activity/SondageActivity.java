@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.github.kevinsawicki.http.HttpRequest;
@@ -16,6 +17,7 @@ import com.google.gson.JsonParser;
 import com.joris.android_remotevote.Fragment.FinishFragment;
 import com.joris.android_remotevote.Fragment.QuestionFragment;
 import com.joris.android_remotevote.Fragment.SondageFragment;
+import com.joris.android_remotevote.Models.Answers;
 import com.joris.android_remotevote.Models.Question;
 import com.joris.android_remotevote.Models.Sondage;
 import com.joris.android_remotevote.R;
@@ -23,15 +25,22 @@ import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.vlonjatg.progressactivity.ProgressActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 public class SondageActivity extends AppCompatActivity {
 
-    public final static String API_GET_SONDAGE = "http://10.7.244.169:3000/api/sondages/";
+    public final static String API_GET_SONDAGE = "http://10.7.244.173:3000/api/sondages/";
     private ProgressActivity progressActivity;
     private IconDrawable errorDrawable;
     private String idSondage;
     private static Sondage sondage;
 
     private static int actualQuestion;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,7 @@ public class SondageActivity extends AppCompatActivity {
     private void getIdSondage() {
         if (getIntent() != null && getIntent().getExtras() != null) {
             idSondage = getIntent().getExtras().getString("idSondage");
+            username = getIntent().getExtras().getString("username");
         }
         if (idSondage == null) {
             Intent mainIntent = new Intent(this, MainActivity.class);
@@ -80,6 +90,20 @@ public class SondageActivity extends AppCompatActivity {
     public void nextQuestion(Question previousQuestion) {
         if (previousQuestion != null) {
             sondage.getQuestions().get(actualQuestion - 1).setAnswers(previousQuestion.getAnswers());
+            JSONObject jsonObject = new JSONObject();
+            try {
+                JSONArray idResponse = new JSONArray();
+                ArrayList<Answers> answers = previousQuestion.getAnswers();
+                for (int i = 0; i < answers.size(); i++) {
+                    if (answers.get(i).isSelected())
+                        idResponse.put(i);
+                }
+                jsonObject.put("user", username);
+                jsonObject.put("answers", idResponse);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            new POSTQuestion(sondage.getIdSimple(), actualQuestion - 1, jsonObject).execute(API_GET_SONDAGE);
         }
 
         Fragment fragment;
@@ -152,6 +176,50 @@ public class SondageActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             progressActivity.showLoading();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+        }
+    }
+
+    private class POSTQuestion extends AsyncTask<String, Void, String> {
+
+        final String id;
+        final int idQuestion;
+        final JSONObject jsonObject;
+
+        public POSTQuestion(String id, int idQuestion, JSONObject jsonObject) {
+            this.id = id;
+            this.idQuestion = idQuestion;
+            this.jsonObject = jsonObject;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                HttpRequest request = HttpRequest.post(params[0] + id + "/questions/" + idQuestion)
+                        .contentType("application/json")
+                        .send(jsonObject.toString());
+                String result = null;
+                if (request.ok()) {
+                    result = request.body();
+                }
+                return result;
+            } catch (HttpRequest.HttpRequestException exception) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (result == null) {
+                new POSTQuestion(this.id, this.idQuestion, jsonObject).execute(API_GET_SONDAGE);
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
         }
 
         @Override

@@ -21,6 +21,15 @@ public class Question implements Parcelable {
         this.answers = answers;
     }
 
+    public ArrayList<Answers> getUserAnswers() {
+        ArrayList<Answers> responses = new ArrayList<>();
+        for (Answers answer : answers) {
+            if (answer.isSelected())
+                responses.add(answer);
+        }
+        return responses;
+    }
+
     public String getContent() {
         if (content == null)
             return "";

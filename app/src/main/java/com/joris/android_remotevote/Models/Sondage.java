@@ -50,6 +50,7 @@ public class Sondage implements Parcelable {
         dest.writeString(_id);
         dest.writeString(idSimple);
         dest.writeString(title);
+        dest.writeTypedList(questions);
     }
 
     public static final Parcelable.Creator<Sondage> CREATOR = new Parcelable.Creator<Sondage>() {
@@ -68,5 +69,6 @@ public class Sondage implements Parcelable {
         _id = in.readString();
         idSimple = in.readString();
         title = in.readString();
+        questions = in.createTypedArrayList(Question.CREATOR);
     }
 }

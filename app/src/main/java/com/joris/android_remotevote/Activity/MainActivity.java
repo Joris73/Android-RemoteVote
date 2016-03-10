@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private void launchSondage(String idSondage) {
         Intent sondageIntent = new Intent(getBaseContext(), SondageActivity.class);
         sondageIntent.putExtra("idSondage", idSondage);
+        sondageIntent.putExtra("username", username);
         startActivity(sondageIntent);
     }
 
