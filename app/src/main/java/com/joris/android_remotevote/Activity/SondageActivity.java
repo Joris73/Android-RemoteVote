@@ -33,7 +33,6 @@ import java.util.ArrayList;
 
 public class SondageActivity extends AppCompatActivity {
 
-    public final static String API_GET_SONDAGE = "http://10.7.244.173:3000/api/sondages/";
     private ProgressActivity progressActivity;
     private IconDrawable errorDrawable;
     private String idSondage;
@@ -41,6 +40,8 @@ public class SondageActivity extends AppCompatActivity {
 
     private static int actualQuestion;
     private String username;
+    public String API = "http://%s/api/sondages/";
+    public String API_GET_SONDAGE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,8 @@ public class SondageActivity extends AppCompatActivity {
         if (getIntent() != null && getIntent().getExtras() != null) {
             idSondage = getIntent().getExtras().getString("idSondage");
             username = getIntent().getExtras().getString("username");
+            String urlserver = getIntent().getExtras().getString("urlserver");
+            API_GET_SONDAGE = String.format(API, urlserver);
         }
         if (idSondage == null) {
             Intent mainIntent = new Intent(this, MainActivity.class);

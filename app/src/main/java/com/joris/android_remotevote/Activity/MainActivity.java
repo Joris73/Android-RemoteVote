@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private TextInputLayout inputLayoutIdSurvey;
     private EditText inputIdSurvey;
     private Button btnSignup;
+    private String urlserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         Intent sondageIntent = new Intent(getBaseContext(), SondageActivity.class);
         sondageIntent.putExtra("idSondage", idSondage);
         sondageIntent.putExtra("username", username);
+        sondageIntent.putExtra("urlserver", urlserver);
         startActivity(sondageIntent);
     }
 
@@ -72,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
                 .getDefaultSharedPreferences(this);
 
         username = sharedPrefs.getString("prefUsername", "");
-        if (username.equals("")) {
+        urlserver = sharedPrefs.getString("prefUrlServeur", "");
+        if (username.equals("") || urlserver.equals("")) {
             launchPreference();
         } else {
             String welcome = getResources().getString(R.string.welcome_messages, username);

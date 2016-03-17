@@ -8,4 +8,12 @@
             android:title="@string/pref_user_name" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_url_serv">
+        <EditTextPreference
+            android:key="prefUrlServeur"
+            android:summary="@string/perf_url_summary"
+            android:title="@string/pref_url_title"
+            android:defaultValue="@string/url_serv"/>
+    </PreferenceCategory>
+
 </PreferenceScreen>
